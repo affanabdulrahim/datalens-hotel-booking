@@ -4,9 +4,9 @@ A lightweight, full-stack web application for uploading CSV files, profiling and
 
 ## Team
 
-- **Member 1:** [Your Name]
-- **Member 2:** [Your Name]
-- **Member 3 (if applicable):** [Your Name]
+- **Member 1:** Affan Abdul Rahim Khan
+- **Member 2:** Haseeb Ahsan
+- **Member 3:** Hassaan bin Kamran
 - **Assigned Dataset:** Dataset 10 — Hotel Booking Demand
 - **Dataset File:** `data/hotel_booking.csv` (119,390 hotel booking records)
 
@@ -65,7 +65,7 @@ DataLens uses a large language model for the chat interface and executive summar
 ### 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/affanabdulrahim/datalens-hotel-booking
 cd datalens-hotel-booking
 ```
 
@@ -109,21 +109,23 @@ This installs Python dependencies via uv. Node.js dependencies are installed aut
 
 ### 4. Start the application
 
-**Combined startup (both backend and frontend):**
-
-```bash
-# From the repo root, run the startup script or command:
-./start.sh        # macOS/Linux
-# or
-npm run dev       # Windows (from repo root with npm configured)
+**Single command — Windows:**
+```bat
+start.bat
 ```
+
+**Single command — macOS/Linux:**
+```bash
+chmod +x start.sh && ./start.sh
+```
+
+Both scripts launch the backend (port 8000) and frontend (port 5173) simultaneously. Frontend dependencies are installed automatically on first run.
 
 **Or start services separately:**
 
 Terminal 1 — Backend:
 ```bash
-cd backend
-uvicorn app.main:app --reload --port 8000
+uvicorn backend.app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Terminal 2 — Frontend:
@@ -132,6 +134,7 @@ cd frontend
 npm install       # First time only
 npm run dev
 ```
+
 
 ### 5. Open the application
 
@@ -388,15 +391,15 @@ cd frontend && npm install --force
 
 ### Development Roles
 
-- **[Member 1 Name]:** [Primary responsibilities — e.g., backend data pipeline, CSV upload, profiling]
-- **[Member 2 Name]:** [Primary responsibilities — e.g., frontend UI, React components, dashboard]
-- **[Member 3 Name (if applicable)]:** [Primary responsibilities — e.g., testing, LLM integration, documentation]
+- **Affan Abdul Rahim Khan:** Debugging, code fixing, UI fixing, and LLM integration
+- **Haseeb Ahsan:** Backend API development
+- **Hassaan bin Kamran:** Frontend UI architecture and data visualizations/graphs
 
 ### Key Contributions
 
 - Specification: Detailed requirements for generic CSV analytics and Hotel Booking Demand specialization
 - Planning: 3-week implementation roadmap with 24 focused tasks
-- Architecture: TDD discipline, tool-calling LLM pattern, clean separation of backend/frontend
+- Architecture: TDD discipline, tool-calling LLM pattern (Groq / llama-3.3-70b-versatile), clean separation of backend/frontend
 - Testing: Comprehensive pytest and Vitest suites with ≥70% coverage
 - Documentation: SPEC.md, README, 3 ADRs, and final project report
 
@@ -420,12 +423,8 @@ This project was built as part of a full-stack software engineering course. Spec
 
 ---
 
-**Last updated:** May 10, 2026 | **Status:** In Development | **Version:** 1.0
+**Last updated:** May 14, 2026 | **Status:** Complete | **Version:** 1.0
 
 ## Acknowledgments
 
-This project was developed as part of the Spring 2026 Strategic Generative AI for Business course. We used [Antigravity / Claude Code / Codex / Cursor] as our coding agent, guided by the Agent Skills framework authored by Addy Osmani (MIT licensed, available at [https://github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)).
-
-## License
-
-[TODO — Choose a license or remove this section.]
+This project was developed as part of the Spring 2026 Strategic Generative AI for Business course. We used **Claude Code** as our coding agent, guided by the Agent Skills framework authored by Addy Osmani (MIT licensed, available at [https://github.com/addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)).

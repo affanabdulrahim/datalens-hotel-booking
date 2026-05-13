@@ -60,104 +60,111 @@ ${summary.data_quality_notes.map((n) => `• ${n}`).join("\n")}
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">
-            Insights
-          </p>
-          <h2 className="mt-1 text-lg font-semibold text-slate-950">Executive Summary</h2>
-          <p className="mt-1 text-sm text-slate-600">
-            {intelligence
-              ? `Data-driven summary for your ${intelligence.typeLabel.toLowerCase()} dataset.`
-              : "Generate a data-grounded summary from the saved dataset."}
-          </p>
+    <section className="space-y-6">
+      {/* Header Card */}
+      <div className="rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-8 backdrop-blur-sm">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-purple-400">
+              ✨ Insights
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-white">Executive Summary</h2>
+            <p className="mt-2 max-w-2xl text-sm text-slate-300">
+              AI-generated data-driven insights and analysis of your dataset with key findings and data quality metrics.
+            </p>
+          </div>
+          <div className="text-5xl opacity-30">📊</div>
         </div>
-        <button
-          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-          disabled={isLoading}
-          onClick={handleGenerate}
-          type="button"
-        >
-          {isLoading ? "Generating..." : "Generate Summary"}
-        </button>
       </div>
 
-      {intelligence ? (
-        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <h3 className="text-sm font-semibold text-slate-950">Expected Structure</h3>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
-              {intelligence.summaryStructure.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
-            <h3 className="text-sm font-semibold text-slate-950">Data Quality Notes</h3>
-            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
-              {intelligence.dataQualityNotes.map((note) => (
-                <li key={note}>{note}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
+      {/* Generate Button */}
+      <button
+        className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-purple-500 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        disabled={isLoading}
+        onClick={handleGenerate}
+        type="button"
+      >
+        {isLoading ? (
+          <>
+            <span className="inline-block animate-spin">⏳</span>
+            Generating Summary...
+          </>
+        ) : (
+          <>
+            <span>Generate Summary</span>
+            <span>→</span>
+          </>
+        )}
+      </button>
 
+      {/* Error Message */}
       {error ? (
-        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">
-          {error}
+        <div className="rounded-xl border border-red-700/50 bg-red-950/30 p-4 text-sm text-red-400" role="alert">
+          <div className="flex gap-2">
+            <span className="text-lg">⚠️</span>
+            <div>
+              <p className="font-semibold">Error</p>
+              <p className="mt-1">{error}</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
+      {/* Summary Display */}
       {summary ? (
-        <article className="mt-4 space-y-5 rounded-2xl border border-gradient-to-r from-teal-200 to-blue-200 bg-gradient-to-br from-teal-50 to-blue-50 p-5 shadow-lg">
+        <article className="space-y-6">
           {/* Main Summary */}
-          <div className="border-b border-teal-200 pb-5">
-            <h3 className="text-sm font-semibold uppercase tracking-wide text-teal-900">Summary</h3>
-            <p className="mt-3 leading-relaxed text-slate-900">{summary.summary}</p>
+          <div className="rounded-2xl border border-purple-700/50 bg-gradient-to-br from-purple-950/30 to-purple-900/20 p-6 backdrop-blur-sm">
+            <h3 className="flex items-center gap-2 text-lg font-bold text-purple-300">
+              <span>📝</span> Summary
+            </h3>
+            <p className="mt-4 whitespace-pre-wrap leading-7 text-slate-200">{summary.summary}</p>
           </div>
 
           {/* Key Findings */}
-          {summary.key_findings.length > 0 ? (
-            <div className="border-b border-teal-200 pb-5">
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-teal-900">Key Findings</h3>
-              <div className="mt-3 space-y-2">
+          {summary.key_findings.length > 0 && (
+            <div className="rounded-2xl border border-cyan-700/50 bg-gradient-to-br from-cyan-950/30 to-cyan-900/20 p-6 backdrop-blur-sm">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-cyan-300">
+                <span>🔍</span> Key Findings
+              </h3>
+              <div className="mt-4 space-y-3">
                 {summary.key_findings.map((finding, idx) => (
-                  <div className="flex gap-3" key={idx}>
-                    <div className="mt-1 h-6 w-6 flex-shrink-0 rounded-full bg-teal-600 text-center text-xs font-bold text-white">
+                  <div className="flex gap-4" key={idx}>
+                    <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-cyan-600/30 text-cyan-300 font-bold text-sm">
                       {idx + 1}
                     </div>
-                    <p className="text-sm leading-relaxed text-slate-900">{finding}</p>
+                    <p className="leading-7 text-slate-200 pt-0.5">{finding}</p>
                   </div>
                 ))}
               </div>
             </div>
-          ) : null}
+          )}
 
           {/* Data Quality Notes */}
-          {summary.data_quality_notes.length > 0 ? (
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wide text-teal-900">Data Quality Notes</h3>
-              <ul className="mt-3 space-y-2">
+          {summary.data_quality_notes.length > 0 && (
+            <div className="rounded-2xl border border-green-700/50 bg-gradient-to-br from-green-950/30 to-green-900/20 p-6 backdrop-blur-sm">
+              <h3 className="flex items-center gap-2 text-lg font-bold text-green-300">
+                <span>✅</span> Data Quality
+              </h3>
+              <ul className="mt-4 space-y-3">
                 {summary.data_quality_notes.map((note, idx) => (
-                  <li className="flex gap-2 text-sm text-slate-900" key={idx}>
-                    <span className="mt-1 text-teal-600">✓</span>
+                  <li className="flex gap-3 text-slate-200" key={idx}>
+                    <span className="flex-shrink-0 text-green-400 font-bold">✓</span>
                     <span>{note}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          ) : null}
+          )}
 
           {/* Export Button */}
-          <div className="flex gap-2 border-t border-teal-200 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
-              className="inline-flex items-center justify-center rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-700/50 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-600/50 border border-slate-600"
               onClick={handleExport}
               type="button"
             >
-              ↓ Download Summary
+              <span>⬇️</span> Download Summary
             </button>
           </div>
         </article>

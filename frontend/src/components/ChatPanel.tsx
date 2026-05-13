@@ -41,24 +41,31 @@ export function ChatPanel({ datasetId, profile }: ChatPanelProps) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-700">
-          Natural Language
-        </p>
-        <h2 className="mt-1 text-lg font-semibold text-slate-950">Ask a Question</h2>
-        <p className="mt-1 text-sm text-slate-600">
-          Query your data using natural language. The system uses deterministic tools to answer based on your dataset.
-        </p>
+    <section className="space-y-6">
+      {/* Header Card */}
+      <div className="rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-8 backdrop-blur-sm">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-cyan-400">
+              💬 Data Chat
+            </p>
+            <h2 className="mt-3 text-3xl font-bold text-white">Ask Your Data</h2>
+            <p className="mt-2 max-w-2xl text-sm text-slate-300">
+              Use natural language to ask questions about your dataset. The AI will analyze and provide data-driven answers powered by Google Gemini.
+            </p>
+          </div>
+          <div className="text-5xl opacity-30">🔍</div>
+        </div>
       </div>
 
+      {/* Suggested Questions */}
       {suggestedQuestions.length > 0 && (
-        <div className="mt-4">
-          <h3 className="text-sm font-medium text-slate-800">Suggested {intelligence?.typeLabel || "dataset"} questions</h3>
-          <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <div className="space-y-3">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-400">Try These Questions</h3>
+          <div className="grid gap-3 sm:grid-cols-2">
             {suggestedQuestions.map((suggestedQuestion) => (
               <button
-                className="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-left text-sm text-slate-800 shadow-sm hover:border-teal-600 hover:bg-teal-50"
+                className="group rounded-xl border border-slate-700 bg-slate-800/30 p-4 text-left transition hover:border-cyan-500/50 hover:bg-slate-700/40"
                 key={suggestedQuestion}
                 onClick={() => {
                   setQuestion(suggestedQuestion);
@@ -66,43 +73,69 @@ export function ChatPanel({ datasetId, profile }: ChatPanelProps) {
                 }}
                 type="button"
               >
-                {suggestedQuestion}
+                <p className="text-sm text-slate-300 group-hover:text-cyan-300">{suggestedQuestion}</p>
               </button>
             ))}
           </div>
         </div>
       )}
 
-      <form className="mt-4 space-y-3" onSubmit={handleSubmit}>
-        <label className="block text-sm font-medium text-slate-800" htmlFor="chat-question">
-          Your Question
-        </label>
-        <textarea
-          className="min-h-20 w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-teal-700 focus:outline-none focus:ring-1 focus:ring-teal-700"
-          id="chat-question"
-          onChange={(event) => setQuestion(event.target.value)}
-          placeholder={intelligence ? `Ask about ${intelligence.typeLabel.toLowerCase()} data...` : "Ask about your data..."}
-          value={question}
-        />
+      {/* Question Input */}
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label className="block text-sm font-semibold text-slate-300 mb-2" htmlFor="chat-question">
+            Your Question
+          </label>
+          <textarea
+            className="min-h-24 w-full rounded-xl border border-slate-700 bg-slate-800/50 px-4 py-3 text-sm text-white placeholder-slate-500 focus:border-cyan-500 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+            id="chat-question"
+            onChange={(event) => setQuestion(event.target.value)}
+            placeholder="What is the data about? What patterns do you see? ..."
+            value={question}
+          />
+        </div>
         <button
-          className="inline-flex min-h-10 items-center justify-center rounded-xl bg-teal-700 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-800 disabled:cursor-not-allowed disabled:bg-slate-400"
-          disabled={isSending}
+          className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:from-cyan-500 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isSending || !question.trim()}
           type="submit"
         >
-          {isSending ? "Sending..." : "Send Question"}
+          {isSending ? (
+            <>
+              <span className="inline-block animate-spin">⏳</span>
+              Asking...
+            </>
+          ) : (
+            <>
+              <span>Send Question</span>
+              <span>→</span>
+            </>
+          )}
         </button>
       </form>
 
+      {/* Error Message */}
       {error ? (
-        <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-800" role="alert">
-          {error}
+        <div className="rounded-xl border border-red-700/50 bg-red-950/30 p-4 text-sm text-red-400" role="alert">
+          <div className="flex gap-2">
+            <span className="text-lg">⚠️</span>
+            <div>
+              <p className="font-semibold">Error</p>
+              <p className="mt-1">{error}</p>
+            </div>
+          </div>
         </div>
       ) : null}
 
+      {/* Answer Display */}
       {answer ? (
-        <article className="mt-4 rounded-2xl border border-teal-200 bg-teal-50 p-4 shadow-sm">
-          <h3 className="text-sm font-semibold text-teal-950">Answer</h3>
-          <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-slate-900">{answer}</p>
+        <article className="rounded-2xl border border-cyan-700/50 bg-gradient-to-br from-cyan-950/30 to-blue-950/30 p-6 backdrop-blur-sm">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">✨</span>
+            <div className="flex-1">
+              <h3 className="font-semibold text-cyan-300">AI Response</h3>
+              <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-200">{answer}</p>
+            </div>
+          </div>
         </article>
       ) : null}
     </section>

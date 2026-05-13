@@ -2,6 +2,7 @@ import { Profile } from "../api";
 import { formatColumnLabel } from "../utils/columnLabels";
 import { getColumnsByRole } from "../utils/datasetIntelligence";
 import { FilterState } from "./GlobalFilters";
+import { KPIGrid } from "./KPICard";
 import {
   Bar,
   BarChart,
@@ -73,6 +74,8 @@ export function Dashboard({ profile, rowCount, filters = {}, sectionType = "brea
   // Default: breakdown section
   return (
     <section className="space-y-6">
+      <KPIGrid profile={profile} rowCount={rowCount} />
+      
       <FilterSummary
         activeFilters={activeFilters}
         filteredRowCount={filteredRowCount}
