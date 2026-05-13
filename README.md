@@ -405,7 +405,7 @@ cd frontend && npm install --force
 
 ## Acknowledgments
 
-This project was built as part of a full-stack software engineering course. Special thanks to:
+This project was built as part of Gen-AI course. Special thanks to:
 
 - **Course instructors** for the project specification and grading framework
 - **FastAPI community** for excellent documentation and examples
